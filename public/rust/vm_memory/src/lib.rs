@@ -5,6 +5,13 @@ mod c_api;
 use c_api::*;
 use std::mem;
 
+/// Accessing to allocated buffer
+pub trait BufferAccessor {
+    fn get_buffer_ptr(&self) -> *mut u8;
+
+    fn get_buffer_size(&self) -> u64;
+}
+
 /// Simple region based allocator.
 ///
 /// Allocates continuous chunk of memory with a specific size.
@@ -13,6 +20,16 @@ use std::mem;
 pub struct RegionAllocator {
     /// The memory reserved for the allocator.
     pub region: RegionMemoryBuffer,
+}
+
+impl BufferAccessor for RegionAllocator {
+    fn get_buffer_ptr(&self) -> *mut u8 {
+        self.region.base
+    }
+
+    fn get_buffer_size(&self) -> u64 {
+        self.region.size
+    }
 }
 
 impl RegionAllocator {
