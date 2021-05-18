@@ -20,6 +20,8 @@ build: $(LIBRARY)
 $(LIBRARY): $(OBJECTS)
 	$(CXX) -shared $(LDFLAGS) $(OBJECTS) -o build/$(LIBRARY)
 	bindgen public/cpp/vm_memory.hpp -o public/rust/vm_memory/src/c_api.rs
+	cd public/rust/vm_memory && cargo clippy
+	cd public/rust/vm_memory && cargo test
 
 $(BUILDDIR)/%.o: %.cpp
 	mkdir -p $(BUILDDIR)/$(dir $<)

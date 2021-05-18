@@ -1,6 +1,8 @@
+#[allow(warnings)]
+#[allow(clippy::all)]
 mod c_api;
 
-pub use c_api::*;
+use c_api::*;
 use std::mem;
 
 /// Simple region based allocator.
